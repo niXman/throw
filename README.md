@@ -1,4 +1,7 @@
 throw
 =====
 
-C++ exceptions helpers
+C++ exceptions/logging helpers
+
+Usage
+===
