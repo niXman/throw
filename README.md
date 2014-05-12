@@ -1,0 +1,4 @@
+throw
+=====
+
+C++ exceptions helpers
