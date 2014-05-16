@@ -173,7 +173,7 @@
  */
 
 #define %PREFIX%_THROW(...) \
-	throw std::runtime_error(%PREFIX%_MESSAGE_AS_STRING(__VA_ARGS__));
+	throw std::runtime_error(%PREFIX%_MESSAGE_AS_STRING(__VA_ARGS__))
 
 /***************************************************************************/
 
@@ -182,7 +182,7 @@
  */
 
 #define %PREFIX%_TYPED_THROW(extype, ...) \
-	throw extype(%PREFIX%_MESSAGE_AS_STRING(__VA_ARGS__));
+	throw extype(%PREFIX%_MESSAGE_AS_STRING(__VA_ARGS__))
 
 /***************************************************************************/
 
