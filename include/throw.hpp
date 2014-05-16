@@ -221,6 +221,7 @@
 		logstream << %PREFIX%_MESSAGE_AS_STRING("[exception]: %s", ex.what()) << std::endl; \
 	} catch (...) { \
 		flagname = true; \
+		logstream << %PREFIX%_MESSAGE_AS_STRING("[exception]: %s", "unknown exception") << std::endl; \
 	}
 
 /***************************************************************************/
