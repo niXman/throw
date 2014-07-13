@@ -19,12 +19,12 @@ struct usertype {
 };
 
 int main() {
-	std::cout << TEST_FORMAT_MESSAGE("message: %s, %d, %s", "string1", 33, "string2") << std::endl;
-	const std::string str = TEST_FORMAT_MESSAGE_AS_STRING("message: %s, %d, %s", "string3", 44, "string4");
+	std::cout << TEST_FORMAT_MESSAGE("message: %1%, %2%, %3%", "string1", 33, "string2") << std::endl;
+	const std::string str = TEST_FORMAT_MESSAGE_AS_STRING("message: %1%, %2%, %3%", "string3", 44, "string4");
 	std::cout << str << std::endl;
 
 	usertype u;
-	std::cout << TEST_FORMAT_MESSAGE("message: %s, %d, %s, %s", "string1", 33, "string2", u) << std::endl;
+	std::cout << TEST_FORMAT_MESSAGE("message: %1%, %2%, %3%, %4%", "string1", 33, "string2", u) << std::endl;
 
 	TEST_TRY(flag1)
 		throw "message from exception 1";
