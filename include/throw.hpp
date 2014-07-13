@@ -97,7 +97,7 @@
 
 #define %PREFIX%_FORMAT_MESSAGE(fmt, ...) \
 	boost::format( \
-		static_cast<std::ostringstream&>( \
+		static_cast<const std::ostringstream&>( \
 			std::ostringstream() \
 				<< __FILE__ "(" BOOST_PP_STRINGIZE(__LINE__) ")[" \
 				<< __PRETTY_FUNCTION__ << "]: " \
