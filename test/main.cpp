@@ -3,12 +3,8 @@
 #include <iostream>
 
 #define CHECK_FLAG(flag) \
-	if ( flag ) { \
-		std::cout << #flag " is set - test passed" << std::endl; \
-	} else { \
-		std::cout << #flag " is NOT set - test failed" << std::endl; \
-		return 1; \
-	}
+	std::cout << #flag " is" << (flag ? "" : "NOT") << " set - test " << (flag ? "PASSED" : "FAILED") << std::endl; \
+	if ( !flag ) return 1;
 
 struct usertype {
 	usertype()
@@ -23,12 +19,12 @@ struct usertype {
 };
 
 int main() {
-	std::cout << TEST_MESSAGE_AS_STRING("message: %s, %d, %s", "string1", 33, "string2") << std::endl;
-	const std::string str = TEST_MESSAGE_AS_STRING("message: %s, %d, %s", "string3", 44, "string4");
+	std::cout << TEST_FORMAT_MESSAGE("message: %s, %d, %s", "string1", 33, "string2") << std::endl;
+	const std::string str = TEST_FORMAT_MESSAGE_AS_STRING("message: %s, %d, %s", "string3", 44, "string4");
 	std::cout << str << std::endl;
 
 	usertype u;
-	std::cout << TEST_MESSAGE_AS_STRING("message: %s, %d, %s, %s", "string1", 33, "string2", u) << std::endl;
+	std::cout << TEST_FORMAT_MESSAGE("message: %s, %d, %s, %s", "string1", 33, "string2", u) << std::endl;
 
 	TEST_TRY(flag1)
 		throw "message from exception 1";

@@ -44,7 +44,8 @@
 	_49,_50,_51,_52,_53,_54,_55,_56,_57,_58,_59,_60,_61,_62,_63,  N, ...) N
 
 #define %PREFIX%_VA_MORE1_ARGS(...) \
-	%PREFIX%_VA_ARG_N(__VA_ARGS__ \
+	%PREFIX%_VA_ARG_N( \
+		 __VA_ARGS__ \
 		,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 \
 		,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0 \
 	)
@@ -64,23 +65,23 @@
 	%PREFIX%_PRIMITIVE_CAT_(A, __VA_ARGS__)
 
 #define %PREFIX%_PRIMITIVE_TOSTR_(A) \
-	# A
+	#A
 
 #define %PREFIX%_TOSTR(A) \
 	%PREFIX%_PRIMITIVE_TOSTR_(A)
 
-#define %PREFIX%_DEBUG_LOG_ARG_LIST(...) \
-	%PREFIX%_CONCAT(%PREFIX%_DEBUG_LOG_ARG_LIST, %PREFIX%_VA_MORE1_ARGS(__VA_ARGS__))(__VA_ARGS__)
+#define %PREFIX%_GET_ARGS_LIST(...) \
+	%PREFIX%_CONCAT(%PREFIX%_GET_ARGS_LIST_, %PREFIX%_VA_MORE1_ARGS(__VA_ARGS__))(__VA_ARGS__)
 
-#define %PREFIX%_DEBUG_LOG_ARG_LIST0(...)
+#define %PREFIX%_GET_ARGS_LIST_0(...)
 
-#define %PREFIX%_DEBUG_LOG_ARG_LIST1(F_, ...) \
+#define %PREFIX%_GET_ARGS_LIST_1(F, ...) \
 	%PREFIX%_SEPARATOR %PREFIX%_GET(__VA_ARGS__)
 
 #define %PREFIX%_SEPARATOR %
 
-#define %PREFIX%_DEBUG_LOG_FORMAT(F_, ...) \
-	F_
+#define %PREFIX%_GET_FORMAT_STRING(F, ...) \
+	F
 
 #define %PREFIX%_NARG(...) \
 	%PREFIX%_NARG_(__VA_ARGS__, %PREFIX%_RSEQ_N())
@@ -156,15 +157,18 @@
 /***************************************************************************/
 
 /* usage:
- * std::cout << %PREFIX%_MESSAGE_AS_STRING("message: %s, %d, %s", "string1", 33, "string2") << std::endl;
- * std::string str = %PREFIX%_MESSAGE_AS_STRING("message: %s, %d, %s", "string1", 33, "string2");
+ * std::cout << %PREFIX%_FORMAT_MESSAGE("message: %s, %d, %s", "string1", 33, "string2") << std::endl;
+ * std::string str = %PREFIX%_FORMAT_MESSAGE_AS_STRING("message: %s, %d, %s", "string1", 33, "string2");
  */
 
-#define %PREFIX%_MESSAGE_AS_STRING(...) \
-	(boost::format( \
+#define %PREFIX%_FORMAT_MESSAGE(...) \
+	boost::format( \
 		__FILE__ "(" %PREFIX%_TOSTR(__LINE__) ")[%s]: " \
-		%PREFIX%_DEBUG_LOG_FORMAT(__VA_ARGS__,) \
-	) % __PRETTY_FUNCTION__ %PREFIX%_DEBUG_LOG_ARG_LIST(__VA_ARGS__)).str()
+		%PREFIX%_GET_FORMAT_STRING(__VA_ARGS__,) \
+	) % __PRETTY_FUNCTION__ %PREFIX%_GET_ARGS_LIST(__VA_ARGS__)
+
+#define %PREFIX%_FORMAT_MESSAGE_AS_STRING(...) \
+	(%PREFIX%_FORMAT_MESSAGE(__VA_ARGS__)).str()
 
 /***************************************************************************/
 
@@ -173,7 +177,7 @@
  */
 
 #define %PREFIX%_THROW(...) \
-	throw std::runtime_error(%PREFIX%_MESSAGE_AS_STRING(__VA_ARGS__))
+	throw std::runtime_error(%PREFIX%_FORMAT_MESSAGE_AS_STRING(__VA_ARGS__))
 
 /***************************************************************************/
 
@@ -182,7 +186,7 @@
  */
 
 #define %PREFIX%_TYPED_THROW(extype, ...) \
-	throw extype(%PREFIX%_MESSAGE_AS_STRING(__VA_ARGS__))
+	throw extype(%PREFIX%_FORMAT_MESSAGE_AS_STRING(__VA_ARGS__))
 
 /***************************************************************************/
 
@@ -218,10 +222,10 @@
 #define %PREFIX%_CATCH_LOG(flagname, logstream) \
 	} catch (const std::exception &ex) { \
 		flagname = true; \
-		logstream << %PREFIX%_MESSAGE_AS_STRING("[exception]: %s", ex.what()) << std::endl; \
+		logstream << %PREFIX%_FORMAT_MESSAGE("[exception]: %s", ex.what()) << std::endl; \
 	} catch (...) { \
 		flagname = true; \
-		logstream << %PREFIX%_MESSAGE_AS_STRING("[exception]: %s", "unknown exception") << std::endl; \
+		logstream << %PREFIX%_FORMAT_MESSAGE("[exception]: %s", "unknown exception") << std::endl; \
 	}
 
 /***************************************************************************/
