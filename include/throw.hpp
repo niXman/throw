@@ -212,20 +212,26 @@
 	((void)flagname); \
 	try {
 
-#define %PREFIX%_CATCH(flagname) \
+#define %PREFIX%_CATCH(flagname, ...) \
 	} catch (const std::exception &) { \
 		flagname = true; \
 	} catch (...) { \
 		flagname = true; \
+	} \
+	if ( flagname ) { \
+		__VA_ARGS__; \
 	}
 
-#define %PREFIX%_CATCH_LOG(flagname, logstream) \
+#define %PREFIX%_CATCH_LOG(flagname, logstream, ...) \
 	} catch (const std::exception &ex) { \
 		flagname = true; \
 		logstream << %PREFIX%_FORMAT_MESSAGE("[exception]: %s", ex.what()) << std::endl; \
 	} catch (...) { \
 		flagname = true; \
-		logstream << %PREFIX%_FORMAT_MESSAGE("[exception]: %s", "unknown exception") << std::endl; \
+		logstream << %PREFIX%_FORMAT_MESSAGE("[exception]: unknown exception") << std::endl; \
+	} \
+	if ( flagname ) { \
+		__VA_ARGS__; \
 	}
 
 /***************************************************************************/
