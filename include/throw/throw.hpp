@@ -153,10 +153,10 @@
 #define %PREFIX%_TRY(flagname) \
 	bool flagname = false; \
 	((void)flagname); \
-	try {
+	try
 
 #define %PREFIX%_CATCH(flagname, ...) \
-	} catch (const std::exception &) { \
+	catch (const std::exception &) { \
 		flagname = true; \
 		{ __VA_ARGS__; } \
 	} catch (...) { \
@@ -165,7 +165,7 @@
 	}
 
 #define %PREFIX%_CATCH_LOG(flagname, logstream, ...) \
-	} catch (const std::exception &ex) { \
+	catch (const std::exception &ex) { \
 		flagname = true; \
 		logstream << %PREFIX%_FORMAT_MESSAGE("[exception]: %1%", ex.what()) << std::endl; \
 		{ __VA_ARGS__; } \

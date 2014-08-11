@@ -26,18 +26,18 @@ int main() {
 	usertype u;
 	std::cout << TEST_FORMAT_MESSAGE("message: %1%, %2%, %3%, %4%", "string1", 33, "string2", u) << std::endl;
 
-	TEST_TRY(flag1)
+	TEST_TRY(flag1) {
 		throw "message from exception 1";
-	TEST_CATCH(flag1)
+	} TEST_CATCH(flag1)
 	CHECK_FLAG(flag1)
 
-	TEST_TRY(flag2)
+	TEST_TRY(flag2) {
 		TEST_TYPED_THROW(std::logic_error, "message from exception 2");
-	TEST_CATCH(flag2)
+	} TEST_CATCH(flag2)
 	CHECK_FLAG(flag2)
 
-	TEST_TRY(flag3)
+	TEST_TRY(flag3) {
 		throw std::runtime_error("message from exception 3");
-	TEST_CATCH_LOG(flag3, std::cout)
+	} TEST_CATCH_LOG(flag3, std::cout)
 	CHECK_FLAG(flag3)
 }
