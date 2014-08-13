@@ -40,4 +40,13 @@ int main() {
 		throw std::runtime_error("message from exception 3");
 	} TEST_CATCH_LOG(flag3, std::cout)
 	CHECK_FLAG(flag3)
+
+	TEST_TRY(flag4) {
+		TEST_TEST_THROW(0);
+	} TEST_CATCH_LOG(flag4, std::cout)
+	try {
+		TEST_TEST_THROW(1 != 1);
+	} catch (const std::exception &ex) {
+		std::cout << ex.what() << std::endl;
+	}
 }
