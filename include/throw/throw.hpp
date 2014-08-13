@@ -177,14 +177,17 @@
 
 /***************************************************************************/
 
-#define %PREFIX%_TEST_THROW(expr) \
+#define %PREFIX%_TEST_TYPED_THROW(expr, type) \
 	do { \
 		if ( !(expr) ) { \
-			throw std::runtime_error( \
-				%PREFIX%_FORMAT_MESSAGE_AS_STRING("[test failed]: expression: \" #expr \"") \
+			throw type( \
+				%PREFIX%_FORMAT_MESSAGE_AS_STRING("[test failed]: expression: \"" #expr "\"") \
 			); \
 		} \
 	} while(0)
+
+#define %PREFIX%_TEST_THROW(expr) \
+	%PREFIX%_TEST_TYPED_THROW(expr, std::runtime_error)
 
 /***************************************************************************/
 
