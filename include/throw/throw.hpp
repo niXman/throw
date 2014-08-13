@@ -134,17 +134,17 @@
 /***************************************************************************/
 
 /* usage:
- * %PREFIX%_TRY(exception_is_thrown)
+ * %PREFIX%_TRY(exception_is_thrown) {
  *    ...code...
- * %PREFIX%_CATCH(exception_is_thrown)
+ * } %PREFIX%_CATCH(exception_is_thrown)
  * if ( exception_is_thrown ) {
  *    ...processing...
  * }
  *
  * usage:
- * %PREFIX%_TRY(exception_is_thrown)
+ * %PREFIX%_TRY(exception_is_thrown) {
  *    ...code...
- * %PREFIX%_CATCH_LOG(exception_is_thrown, std::cerr)
+ * } %PREFIX%_CATCH_LOG(exception_is_thrown, std::cerr)
  * if ( exception_is_thrown ) {
  *    ...processing...
  * }
@@ -174,6 +174,17 @@
 		logstream << %PREFIX%_FORMAT_MESSAGE("[exception]: unknown exception") << std::endl; \
 		{ __VA_ARGS__; } \
 	}
+
+/***************************************************************************/
+
+#define %PREFIX%_TEST_THROW(expr) \
+	do { \
+		if ( !(expr) ) { \
+			throw std::runtime_error( \
+				%PREFIX%_FORMAT_MESSAGE_AS_STRING("[test failed]: expression: \" #expr \"") \
+			); \
+		} \
+	} while(0)
 
 /***************************************************************************/
 
